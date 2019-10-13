@@ -178,6 +178,8 @@ public class GenericResource2 {
          return mainobject.toString();
     }
 
+    
+    //not working
     public JSONObject singleJobs(String jobID) throws SQLException {
         
         ResultSet result;
@@ -244,9 +246,7 @@ public class GenericResource2 {
          return result.toString();
           }
     
-    
-    
-    public int updateJob(String rname, int rid){
+     public int updateRegion(String rname, int rid){
    
         Connection con=null;
         PreparedStatement stm=null;
@@ -256,7 +256,7 @@ public class GenericResource2 {
             DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
           con=DriverManager.getConnection("jdbc:oracle:thin:@144.217.163.57:1521:XE", "hr", "inf5180");
            
-             String sql="update jobs set job_title= ?, min_salary=?, max_salary=? where job_id=?";
+             String sql="update regions set region_name= ? where region_id=?";
              stm=con.prepareStatement(sql);
              stm.setString(1, rname);
              stm.setInt(2, rid);
@@ -344,8 +344,8 @@ public class GenericResource2 {
                 do{
                     jsonObject.accumulate("Job ID: ", result.getString(1));
                     jsonObject.accumulate("Job Name: ", result.getString(2));
-                    jsonObject.accumulate("Min Salary: ", result.getInt(3));
-                    jsonObject.accumulate("Max Salary: ", result.getInt(4));
+                    jsonObject.accumulate("Max Salary: ", result.getInt(3));
+                    jsonObject.accumulate("Min Salary: ", result.getInt(4));
                     jsonArray.add(jsonObject);
                     jsonObject.clear();
                 }while(result.next());
@@ -359,14 +359,14 @@ public class GenericResource2 {
 
            
          } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenericResource2.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mainObject1;
     
     }
     
     @GET
-     @Path("jobsfulllist")
+     @Path("jobfulllist")
     @Produces(MediaType.TEXT_PLAIN)
         public String getListRegions() {   
         JSONObject mainobject=new JSONObject();

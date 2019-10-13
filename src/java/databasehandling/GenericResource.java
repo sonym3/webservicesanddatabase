@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 /**
  * REST Web Service
@@ -299,6 +301,84 @@ public class GenericResource {
     }
     return mainobject.toString();
     }
+    
+    
+    public JSONObject listRegions(){
+   
+        Connection con=null;
+        Statement stmt=null;
+        JSONObject mainObject1=new JSONObject();
+        String status=null;
+       
+        
+        try{
+            DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+          con=DriverManager.getConnection("jdbc:oracle:thin:@144.217.163.57:1521:XE", "hr", "inf5180");
+           
+             String sql="select * from regions";
+             stmt=con.createStatement();
+             ResultSet result=stmt.executeQuery(sql);
+             JSONArray jsonArray=new JSONArray();
+             Instant instant=Instant.now();
+             long time=instant.getEpochSecond();
+             
+   
+           if(result.next() == false){
+                status="Faild";
+                mainObject1.accumulate("Status :", status);
+                mainObject1.accumulate("Timestamp :", time);
+                mainObject1.accumulate("Message :", " Fetching Failed");
+               
+                }  
+            
+            else {
+                do{
+                  status="Success";   
+                   JSONObject jsonObject=new JSONObject();
+                    mainObject1.accumulate("Status :", status);
+                    mainObject1.accumulate("Timestamp :", time);
+                    jsonObject.accumulate("region ID: ", result.getInt(1));
+                    jsonObject.accumulate("Region_Name: ", result.getString(2));
+
+                        jsonArray.add(jsonObject);
+                        jsonObject.clear();
+            
+                   
+                   
+                  }while(result.next());
+                }  
+             
+             
+             
+             stmt.close();
+             con.close();
+
+           
+         } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mainObject1;
+    
+    }
+    
+    @GET
+     @Path("regionsfulllist")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getListRegions() {
+       
+       
+       
+       
+    listRegions();
+   
+    JSONObject mainobject=new JSONObject();
+   
+  
+    return mainobject.toString();
+    }
+    
+    
+    
 }
 
 

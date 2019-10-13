@@ -30,6 +30,8 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(databasehandling.GenericResource.class);
+        resources.add(databasehandling.GenericResource2.class);
+        resources.add(databasehandling.GenericResource3.class);
     }
     
 }

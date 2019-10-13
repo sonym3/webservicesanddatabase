@@ -246,7 +246,7 @@ public class GenericResource2 {
          return result.toString();
           }
     
-     public int updateRegion(String rname, int rid){
+     public int updateJobs(String jobID, String jobName,int maxSalary, int minSalary){
    
         Connection con=null;
         PreparedStatement stm=null;
@@ -256,10 +256,12 @@ public class GenericResource2 {
             DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
           con=DriverManager.getConnection("jdbc:oracle:thin:@144.217.163.57:1521:XE", "hr", "inf5180");
            
-             String sql="update regions set region_name= ? where region_id=?";
+             String sql="update jobs set job_title= ?, min_salary=?, max_salary=?  where job_id=?";
              stm=con.prepareStatement(sql);
-             stm.setString(1, rname);
-             stm.setInt(2, rid);
+             stm.setString(1, jobName);
+             stm.setInt(2, minSalary);
+             stm.setInt(3, maxSalary);
+             stm.setString(4, jobID);
              result=stm.executeUpdate();
              
              stm.close();
@@ -267,21 +269,24 @@ public class GenericResource2 {
 
            
          } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenericResource2.class.getName()).log(Level.SEVERE, null, ex);
         }
     return result;
     }
     
     @GET
-     @Path("update&{val1}&{val2}")
+     @Path("update&{value1}&{value2}&{value3}&{value4}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getText(@PathParam ("val1") String rname, @PathParam ("val2") int rid ) {
+    public String getText(@PathParam ("value1") String jobID, 
+            @PathParam ("value2") String jobName,
+            @PathParam ("value3") int minSalary,
+            @PathParam ("value4") int maxSalary){
        
        
         Instant instant=Instant.now();
         long time=instant.getEpochSecond();
        
-    int result=updateRegion(rname, rid);
+    int result=updateJobs(jobID, jobName, maxSalary, minSalary);
    
     JSONObject mainobject=new JSONObject();
    

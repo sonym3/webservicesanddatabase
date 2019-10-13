@@ -308,19 +308,20 @@ public class GenericResource {
         Connection con=null;
         Statement stmt=null;
         JSONObject mainObject1=new JSONObject();
+        JSONObject jsonObject=new JSONObject();
         String status=null;
        
         
         try{
             DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-          con=DriverManager.getConnection("jdbc:oracle:thin:@144.217.163.57:1521:XE", "hr", "inf5180");
+            con=DriverManager.getConnection("jdbc:oracle:thin:@144.217.163.57:1521:XE", "hr", "inf5180");
            
-             String sql="select * from regions";
-             stmt=con.createStatement();
-             ResultSet result=stmt.executeQuery(sql);
-             JSONArray jsonArray=new JSONArray();
-             Instant instant=Instant.now();
-             long time=instant.getEpochSecond();
+            String sql="select * from regions";
+            stmt=con.createStatement();
+            ResultSet result=stmt.executeQuery(sql);
+            JSONArray jsonArray=new JSONArray();
+            Instant instant=Instant.now();
+            long time=instant.getEpochSecond();
              
    
            if(result.next() == false){
@@ -332,20 +333,15 @@ public class GenericResource {
                 }  
             
             else {
+                mainObject1.accumulate("Status :", "OK");
+                mainObject1.accumulate("Timestamp :", time);
                 do{
-                  status="Success";   
-                   JSONObject jsonObject=new JSONObject();
-                    mainObject1.accumulate("Status :", status);
-                    mainObject1.accumulate("Timestamp :", time);
                     jsonObject.accumulate("region ID: ", result.getInt(1));
                     jsonObject.accumulate("Region_Name: ", result.getString(2));
-
-                        jsonArray.add(jsonObject);
-                        jsonObject.clear();
-            
-                   
-                   
-                  }while(result.next());
+                    jsonArray.add(jsonObject);
+                    jsonObject.clear();
+                }while(result.next());
+                mainObject1.accumulate("Details of regions: ", jsonArray);
                 }  
              
              
@@ -364,17 +360,10 @@ public class GenericResource {
     @GET
      @Path("regionsfulllist")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getListRegions() {
-       
-       
-       
-       
-    listRegions();
-   
-    JSONObject mainobject=new JSONObject();
-   
-  
-    return mainobject.toString();
+        public String getListRegions() {   
+        JSONObject mainobject=new JSONObject();
+        mainobject=listRegions();
+        return mainobject.toString();
     }
     
     

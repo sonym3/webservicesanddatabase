@@ -29,9 +29,10 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(databasehandling.GenericResource.class);
-        resources.add(databasehandling.GenericResource2.class);
-        
+        resources.add(databasehandling.Countries.class);
+        resources.add(databasehandling.Jobs.class);
+        resources.add(databasehandling.Regions.class);
+
     }
     
 }

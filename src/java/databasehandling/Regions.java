@@ -30,13 +30,13 @@ import net.sf.json.JSONObject;
  *
  * @author 1895268
  */
-@Path("generic")
-public class GenericResource {
+@Path("regions")
+public class Regions {
 
     @Context
     private UriInfo context;
 
-    public GenericResource() {
+    public Regions() {
     }
 
     
@@ -71,7 +71,7 @@ public class GenericResource {
            con.close();
         
           } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Regions.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return result;
         
@@ -134,7 +134,7 @@ public class GenericResource {
            con.close();
         
           } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Regions.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return result;
         
@@ -219,7 +219,7 @@ public class GenericResource {
            
     }
     catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Regions.class.getName()).log(Level.SEVERE, null, ex);
         } 
   
         return mainObject1;
@@ -261,7 +261,7 @@ public class GenericResource {
 
            
          } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Regions.class.getName()).log(Level.SEVERE, null, ex);
         }
     return result;
     }
@@ -351,7 +351,7 @@ public class GenericResource {
 
            
          } catch (SQLException ex) {
-            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Regions.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mainObject1;
     
@@ -360,10 +360,10 @@ public class GenericResource {
     @GET
      @Path("regionsfulllist")
     @Produces(MediaType.TEXT_PLAIN)
-        public String getListRegions() {   
-        JSONObject mainobject=new JSONObject();
-        mainobject=listRegions();
-        return mainobject.toString();
+    public String getListRegions() {   
+    JSONObject mainobject=new JSONObject();
+    mainobject=listRegions();
+    return mainobject.toString();
     }
     
     

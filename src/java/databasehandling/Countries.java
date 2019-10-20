@@ -79,7 +79,7 @@ public class Countries {
     
     //REGIONS
     @GET
-    @Path("insert&{value1}&{value2}&{value3}&{value4}")
+    @Path("insert&{value1}&{value2}&{value3}")
     @Produces(MediaType.TEXT_PLAIN)
     public String countriesInsert(
             @PathParam("value1") String countryID,
